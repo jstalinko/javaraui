@@ -412,4 +412,103 @@ export const components: ComponentItem[] = [
   <span class="border border-slate-500 bg-white px-2 py-1 text-xs font-semibold text-slate-600">Paused</span>
 </div>`,
   },
+  {
+    slug: 'tabs-minimal',
+    name: 'Minimal Tabs',
+    category: 'Navigation',
+    description: 'Elegant tabs with subtle borders and active state.',
+    tags: ['tabs', 'navigation'],
+    preview: {
+      desktop: `
+        <div class="border border-slate-700 bg-white">
+          <div class="flex border-b border-slate-200">
+            <button class="border-r border-slate-200 bg-slate-900 px-4 py-3 text-sm font-medium text-white">Overview</button>
+            <button class="border-r border-slate-200 px-4 py-3 text-sm text-slate-600 hover:bg-slate-50">Usage</button>
+            <button class="px-4 py-3 text-sm text-slate-600 hover:bg-slate-50">API</button>
+          </div>
+          <div class="p-4 text-sm text-slate-600">Tab content area.</div>
+        </div>
+      `,
+      mobile: `
+        <div class="border border-slate-700 bg-white">
+          <div class="grid grid-cols-3 border-b border-slate-200 text-xs">
+            <button class="border-r border-slate-200 bg-slate-900 px-2 py-3 text-white">Overview</button>
+            <button class="border-r border-slate-200 px-2 py-3 text-slate-600">Usage</button>
+            <button class="px-2 py-3 text-slate-600">API</button>
+          </div>
+          <div class="p-4 text-sm text-slate-600">Tab content area.</div>
+        </div>
+      `,
+    },
+    code: `<!-- Minimal tabs -->
+<div class="border border-slate-700 bg-white">
+  <div class="flex border-b border-slate-200">
+    <button class="border-r border-slate-200 bg-slate-900 px-4 py-3 text-sm font-medium text-white">Overview</button>
+    <button class="border-r border-slate-200 px-4 py-3 text-sm text-slate-600 hover:bg-slate-50">Usage</button>
+    <button class="px-4 py-3 text-sm text-slate-600 hover:bg-slate-50">API</button>
+  </div>
+  <div class="p-4 text-sm text-slate-600">Tab content area.</div>
+</div>`,
+  },
+  {
+    slug: 'loading-skeleton',
+    name: 'Loading + Skeleton',
+    category: 'Feedback',
+    description: 'Spinner with a clean skeleton card layout.',
+    tags: ['loading', 'skeleton'],
+    preview: {
+      desktop: `
+        <div class="flex flex-wrap items-center gap-3">
+          <div class="inline-flex items-center gap-2 border border-slate-700 bg-white px-4 py-2">
+            <span class="h-4 w-4 animate-spin border-2 border-slate-700 border-t-orange-500"></span>
+            <span class="text-sm text-slate-700">Loading...</span>
+          </div>
+          <div class="border border-slate-700 bg-white p-4">
+            <div class="flex items-start gap-4">
+              <div class="h-10 w-10 bg-slate-200 animate-pulse"></div>
+              <div class="w-56 space-y-2">
+                <div class="h-3 w-1/2 bg-slate-200 animate-pulse"></div>
+                <div class="h-3 w-3/4 bg-slate-200 animate-pulse"></div>
+                <div class="h-3 w-2/3 bg-slate-200 animate-pulse"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+      mobile: `
+        <div class="space-y-3">
+          <div class="inline-flex items-center gap-2 border border-slate-700 bg-white px-4 py-2">
+            <span class="h-4 w-4 animate-spin border-2 border-slate-700 border-t-orange-500"></span>
+            <span class="text-sm text-slate-700">Loading...</span>
+          </div>
+          <div class="border border-slate-700 bg-white p-4">
+            <div class="flex items-start gap-4">
+              <div class="h-10 w-10 bg-slate-200 animate-pulse"></div>
+              <div class="w-full space-y-2">
+                <div class="h-3 w-2/3 bg-slate-200 animate-pulse"></div>
+                <div class="h-3 w-3/4 bg-slate-200 animate-pulse"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      `,
+    },
+    code: `<!-- Loading + skeleton -->
+<div class="flex flex-wrap items-center gap-3">
+  <div class="inline-flex items-center gap-2 border border-slate-700 bg-white px-4 py-2">
+    <span class="h-4 w-4 animate-spin border-2 border-slate-700 border-t-orange-500"></span>
+    <span class="text-sm text-slate-700">Loading...</span>
+  </div>
+  <div class="border border-slate-700 bg-white p-4">
+    <div class="flex items-start gap-4">
+      <div class="h-10 w-10 bg-slate-200 animate-pulse"></div>
+      <div class="w-56 space-y-2">
+        <div class="h-3 w-1/2 bg-slate-200 animate-pulse"></div>
+        <div class="h-3 w-3/4 bg-slate-200 animate-pulse"></div>
+        <div class="h-3 w-2/3 bg-slate-200 animate-pulse"></div>
+      </div>
+    </div>
+  </div>
+</div>`,
+  },
 ]

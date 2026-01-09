@@ -1,26 +1,18 @@
 <template>
   <div class="min-h-screen bg-slate-50 text-slate-900">
-    <header class="border-b border-slate-700 bg-white">
-      <div class="mx-auto flex max-w-7xl items-center justify-between border-l border-r border-slate-700 px-4 py-3">
-        <NuxtLink class="flex items-center gap-3" to="/">
-          <div class="h-9 w-9 bg-orange-500"></div>
-          <span class="text-sm font-semibold">Javara<span class="text-orange-500">UI</span></span>
-        </NuxtLink>
-        <nav class="hidden items-center gap-2 md:flex">
-          <NuxtLink class="px-3 py-2 text-sm text-slate-700 hover:underline" to="/">Home</NuxtLink>
-          <NuxtLink class="px-3 py-2 text-sm text-slate-700 hover:underline" to="/components">Components</NuxtLink>
-        </nav>
+    <Navbar>
+      <template #action>
         <NuxtLink
           class="border border-slate-700 bg-white px-3 py-2 text-sm font-medium text-slate-700 hover:bg-slate-900 hover:text-white"
           to="/components"
         >
           Back to list
         </NuxtLink>
-      </div>
-    </header>
+      </template>
+    </Navbar>
 
-    <main class="mx-auto max-w-7xl border-l border-r border-slate-700 bg-white">
-      <section class="border-b border-slate-200 px-6 py-10">
+    <main class="mx-auto max-w-7xl">
+      <section class="border-b border-slate-200 bg-white px-6 py-10">
         <p class="text-xs font-semibold text-orange-600">{{ component.category }}</p>
         <h1 class="mt-2 text-3xl font-semibold">{{ component.name }}</h1>
         <p class="mt-2 max-w-2xl text-sm text-slate-600">{{ component.description }}</p>
@@ -35,31 +27,54 @@
         </div>
       </section>
 
-      <section class="border-b border-slate-200 px-6 py-10">
-        <div class="flex items-center justify-between">
-          <h2 class="text-xl font-semibold">Preview</h2>
-          <span class="text-xs text-slate-500">Mobile & Desktop</span>
+      <section class="border-b border-slate-200 bg-white px-6 py-10">
+        <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
+          <div>
+            <h2 class="text-xl font-semibold">Preview</h2>
+            <p class="mt-1 text-sm text-slate-600">Toggle between mobile and desktop layouts.</p>
+          </div>
+          <div class="flex items-center gap-2">
+            <button
+              class="border px-3 py-2 text-xs font-medium"
+              :class="
+                activePreview === 'mobile'
+                  ? 'border-slate-900 bg-slate-900 text-white'
+                  : 'border-slate-200 bg-white text-slate-600 hover:border-slate-400'
+              "
+              type="button"
+              @click="activePreview = 'mobile'"
+            >
+              Mobile
+            </button>
+            <button
+              class="border px-3 py-2 text-xs font-medium"
+              :class="
+                activePreview === 'desktop'
+                  ? 'border-slate-900 bg-slate-900 text-white'
+                  : 'border-slate-200 bg-white text-slate-600 hover:border-slate-400'
+              "
+              type="button"
+              @click="activePreview = 'desktop'"
+            >
+              Desktop
+            </button>
+          </div>
         </div>
-        <div class="mt-6 grid gap-6 md:grid-cols-2">
-          <div class="border border-slate-700 bg-slate-50 p-4">
-            <div class="flex items-center justify-between border-b border-slate-200 pb-3">
-              <p class="text-xs font-semibold text-slate-700">Mobile</p>
-              <span class="border border-slate-200 bg-white px-2 py-1 text-xs text-slate-600">375px</span>
-            </div>
-            <div class="mt-4 border border-slate-700 bg-white p-4" v-html="component.preview.mobile"></div>
-          </div>
 
-          <div class="border border-slate-700 bg-slate-50 p-4">
-            <div class="flex items-center justify-between border-b border-slate-200 pb-3">
-              <p class="text-xs font-semibold text-slate-700">Desktop</p>
-              <span class="border border-slate-200 bg-white px-2 py-1 text-xs text-slate-600">1024px</span>
-            </div>
-            <div class="mt-4 border border-slate-700 bg-white p-4" v-html="component.preview.desktop"></div>
+        <div class="mt-6 border border-slate-200 bg-slate-50 p-4">
+          <div class="flex items-center justify-between border-b border-slate-200 pb-3">
+            <p class="text-xs font-semibold text-slate-700">
+              {{ activePreview === 'mobile' ? 'Mobile preview' : 'Desktop preview' }}
+            </p>
+            <span class="border border-slate-200 bg-white px-2 py-1 text-xs text-slate-600">
+              {{ activePreview === 'mobile' ? '375px' : '1024px' }}
+            </span>
           </div>
+          <div class="mt-4 border border-slate-700 bg-white p-4" v-html="activePreviewHtml"></div>
         </div>
       </section>
 
-      <section class="px-6 py-10">
+      <section class="bg-white px-6 py-10">
         <div class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
           <div>
             <h2 class="text-xl font-semibold">HTML Code</h2>
@@ -85,12 +100,11 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue'
 import { useRoute } from 'vue-router'
+import Navbar from '~/components/Navbar.vue'
 import { components } from '~/data/components'
 
 const route = useRoute()
-const slug = Array.isArray(route.params.slug)
-  ? route.params.slug[0]
-  : route.params.slug
+const slug = Array.isArray(route.params.slug) ? route.params.slug[0] : route.params.slug
 
 const component = computed(() => {
   const match = components.find((item) => item.slug === slug)
@@ -110,6 +124,12 @@ const component = computed(() => {
   )
 })
 
+const activePreview = ref<'mobile' | 'desktop'>('desktop')
+
+const activePreviewHtml = computed(() =>
+  activePreview.value === 'mobile' ? component.value.preview.mobile : component.value.preview.desktop
+)
+
 const copyLabel = ref('Copy code')
 
 const escapeHtml = (value: string) =>
@@ -117,7 +137,7 @@ const escapeHtml = (value: string) =>
     .replace(/&/g, '&amp;')
     .replace(/</g, '&lt;')
     .replace(/>/g, '&gt;')
-    .replace(/\"/g, '&quot;')
+    .replace(/"/g, '&quot;')
 
 const highlightHtml = (value: string) => {
   const escaped = escapeHtml(value)
